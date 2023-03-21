@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import datetime
 from db_fxns import *
 
 
@@ -14,6 +15,9 @@ def main():
     task_kind = ["Electra", "Slopen", "Timmerwerk", "Stucwerk", "Schilderwerk", "Betonvloer", "Loodgieter", "Metselwerk", "Isoleren", "Keuken bouwen", "Badkamer bouwen"]
     task_kind = sorted(task_kind)
     task_kind_all = task_kind #ik heb hier een tweede variabele gemaakt om in regel 94 nog iets van een semicoherent resultaat te krijgen
+    task_status = ["To do", "Doing", "Done"]
+    task_status_all = task_status
+
     create_tabel()
 
 
@@ -28,9 +32,9 @@ def main():
             task_material = st.text_area("Materiaalkeuze", placeholder="NVT", height=8)
         with col2:
             task_square = st.number_input("M2")
-            task_due_date = st.date_input("Deadline")
+            task_due_date = st.date_input("Deadline", )
         with col3:
-            task_status = st.selectbox("Status", ["To do", "Doing", "Done"])
+            task_status = st.selectbox("Status", task_status)
             task_bill_date = st.date_input("Datum rekening")
             task_special = st.text_area("Bijzonderheden")
         with col4:
@@ -91,19 +95,19 @@ def main():
             col1, col2, col3, col4 = st.columns(4)
             with col1:
                 new_task = st.text_area("Klus", task)
-                new_task_kind = st.selectbox("Soort werk: " + str(task_kind), task_kind_all) #hier wil ik dus de reeds gekozen optie ingevuld zien
-                new_task_material = st.text_area("Gekozen materiaal: "+ str(task_material), task_material, placeholder=task_material, height=8)
+                new_task_kind = st.selectbox("Soort werk: " + str(task_kind), task_kind_all, index=task_kind_all.index(task_kind)) #hier wil ik dus de reeds gekozen optie ingevuld zien
+                new_task_material = st.text_area("Gekozen materiaal: "+ str(task_material), value=task_material, height=8)
             with col2:
-                new_task_square = st.number_input("Oppervlakte: "+str(task_square))
-                new_task_status = st.selectbox("Status: " + str(task_status), ["To do", "Doing", "Done"])
+                new_task_square = st.number_input("Oppervlakte: ", value=task_square)
+                new_task_status = st.selectbox("Status: ", task_status_all, index=task_status_all.index(task_status))
 
             with col3:
                 new_task_due_date = st.date_input("Deadline")
                 new_task_bill_date = st.date_input("Datum rekening")
-                new_task_special = st.text_area("Bijzonderheden")
+                new_task_special = st.text_area("Bijzonderheden", value=task_special)
             with col4:
-                new_task_budget = st.number_input("Begroot in Euro excl. BTW")
-                new_task_bill = st.number_input("Rekening in Euro excl. BTW")
+                new_task_budget = st.number_input("Begroot in Euro excl. BTW", value=task_budget)
+                new_task_bill = st.number_input("Rekening in Euro excl. BTW", value=task_bill)
 
             if st.button("Klus aanpassen"):
                 edit_task_data(new_task, new_task_kind, new_task_material, new_task_square, new_task_status,
