@@ -1,5 +1,5 @@
 import sqlite3
-conn = sqlite3.connect('data.db',check_same_thread=False)
+conn = sqlite3.connect('data.db', check_same_thread=False, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
 c = conn.cursor()
 
 #met name de functies add_data en edit_task_data doen me een beetje duizelen. Hier zal vast een betere oplossing voor zijn

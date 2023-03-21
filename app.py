@@ -78,7 +78,7 @@ def main():
         #st.write(list_of_tasks)
         selected_task = st.selectbox("Klus om aan te passen", sorted(list_of_tasks))
         selected_result = get_task(selected_task)
-        st.write(selected_result)
+        #st.write(selected_result)
 
         if selected_result:
             task = selected_result[0][0]
@@ -91,6 +91,8 @@ def main():
             task_special = selected_result[0][7]
             task_budget = selected_result[0][8]
             task_bill = selected_result[0][9]
+            #st.write(type(task_due_date))
+
 
             col1, col2, col3, col4 = st.columns(4)
             with col1:
@@ -102,8 +104,8 @@ def main():
                 new_task_status = st.selectbox("Status: ", task_status_all, index=task_status_all.index(task_status))
 
             with col3:
-                new_task_due_date = st.date_input("Deadline")
-                new_task_bill_date = st.date_input("Datum rekening")
+                new_task_due_date = st.date_input("Deadline", value=task_due_date)
+                new_task_bill_date = st.date_input("Datum rekening", value=task_bill_date)
                 new_task_special = st.text_area("Bijzonderheden", value=task_special)
             with col4:
                 new_task_budget = st.number_input("Begroot in Euro excl. BTW", value=task_budget)
