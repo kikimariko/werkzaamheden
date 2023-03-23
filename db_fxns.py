@@ -48,3 +48,7 @@ def edit_task_data(new_task, new_task_kind, new_task_material, new_task_square, 
     conn.commit()
     data =c.fetchall()
     return data
+
+def delete_data(task):
+    c.execute('DELETE FROM taskstable WHERE task="{}"'.format(task))
+    conn.commit()

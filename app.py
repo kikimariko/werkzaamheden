@@ -128,8 +128,35 @@ def main():
 
     elif choice == 'Delete':
         st.subheader("Delete Item")
+        result = view_all_data()
+        df = pd.DataFrame(result, columns=['Klus', 'Soort werk', 'Materiaalkeuze', 'M2', 'Status', 'Deadline',
+                                             'Datum Rekening', 'Bijzonderheden', 'Begroot in Euro excl. BTW',
+                                             'Rekening in Euro exl. BTW'])
+
+        with st.expander("Huidige klussen"):
+            st.dataframe(df)
+
+        list_of_tasks = [i[0] for i in view_unique_tasks()]  # hiermee maak je een lijst van de klussen op klusnaam
+        # st.write(list_of_tasks)
+        selected_task = st.selectbox("Klus om te verwijderen", sorted(list_of_tasks))
+        st.warning("Wil je {} verwijderen?".format(selected_task))
+        if st.button("Verwijder Klus"):
+            delete_data(selected_task)
+            st.success("Klus is verwijderd")
+
+        new_result = view_all_data()
+        df2 = pd.DataFrame(new_result, columns=['Klus', 'Soort werk', 'Materiaalkeuze', 'M2', 'Status', 'Deadline',
+                                             'Datum Rekening', 'Bijzonderheden', 'Begroot in Euro excl. BTW',
+                                             'Rekening in Euro exl. BTW'])
+
+        with st.expander("Updated"):
+            st.dataframe(df2)
 
     else:
         st.subheader("About")
+        st.write("""
+        Het is heel makkelijk: onder Create voer je een klus in. Je hebt alle handige info dan altijd bij elkaar. Als je iets wil aanpassen, doe je dat onder Update. Onder Read kun je altijd zien  wat je huidige klussen zijn. Onder Delete kun je ze weer verwijderen. Supermakkelijk!
+        
+        """)
 
 main()
